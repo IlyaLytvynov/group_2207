@@ -1,12 +1,42 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { Post } from './components/Post';
+import { AddPostForm } from './components/AddPostForm/AddPostForm';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+class App extends React.Component {
+  state = {
+    posts: [
+      {
+        id: (Date.now() + Math.floor(Math.random() * 10000)).toString(),
+        header: 'Hello wortld 1',
+        content: 'lorem cxasdasdas'
+      },
+      {
+        id: (Date.now() + Math.floor(Math.random() * 10000)).toString(),
+        header: 'Hello wortld 2',
+        content: 'lorem cxasdasdas'
+      },
+      {
+        id: (Date.now() + Math.floor(Math.random() * 10000)).toString(),
+        header: 'Hello world 3',
+        content: 'lorem cxasdasdas'
+      }
+    ]
+  };
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+  private addPost = (post: { header: string; text: string;}) => {
+    console.log('>>>', post);
+  }
+
+  render() {
+    return <div>
+      <AddPostForm onAddPost={this.addPost}/>
+      { this.state.posts.map(post => <Post key={ post.id } headerText={ post.header } content={ post.content }/>) }
+    </div>;
+  }
+}
+
+ReactDOM.render(
+  <App/>,
+  document.getElementById('root')
+);
