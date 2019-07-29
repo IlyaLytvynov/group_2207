@@ -1,0 +1,77 @@
+{
+  "extends": [
+    "tslint:latest",
+    "tslint-react"
+  ],
+  "rules": {
+    // override tslint-react rules here
+    "jsx-wrap-multiline": false,
+    "arrow-return-shorthand": true,
+    "callable-types": true,
+    "max-classes-per-file": true,
+    "jsx-curly-spacing": false,
+    "class-name": true,
+    "member-ordering": [
+      true,
+      {
+        "order": [
+          "public-static-field",
+          "protected-static-field",
+          "private-static-field",
+          "public-instance-field",
+          "protected-instance-field",
+          "private-instance-field",
+          "constructor",
+          "public-instance-method",
+          "protected-instance-method",
+          "private-instance-method"
+        ]
+      }
+    ],
+    "no-useless-constructor": false,
+    "no-submodule-imports": false,
+    "object-literal-sort-keys": false,
+    "ordered-imports": false,
+    "no-implicit-dependencies": false,
+    "no-arg": true,
+    "no-bitwise": true,
+    "no-console": [
+      true,
+      "log",
+      "debug",
+      "info",
+      "time",
+      "timeEnd",
+      "trace",
+      "dir"
+    ],
+    "trailing-comma": false,
+    "no-construct": true,
+    "no-debugger": true,
+    "no-duplicate-super": true,
+    "no-empty": true,
+    "no-empty-interface": false,
+    "no-eval": true,
+    "interface-name": false,
+    "variable-name": false,
+    "array-type": [
+      true,
+      "generic"
+    ],
+    "quotemark": [
+      true,
+      "single"
+    ],
+    "semicolon": [
+      true,
+      "always",
+      "ignore-bound-class-methods"
+    ],
+    "triple-equals": [
+      true,
+      "allow-null-check"
+    ],
+    "arrow-parens": false,
+    "no-string-literal": false
+  }
+}

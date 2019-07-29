@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { SyntheticEvent } from 'react';
-import injectSheet from 'react-jss'
+import injectSheet, { WithSheet } from 'react-jss';
 import styles from './AddPostForm.styles';
+import { PostModel } from '../../models/Post';
 
 interface Props {
-  classes: {[key: string]: any},
-  onAddPost: (post: {header: string; text: string}) => void;
+  onAddPost: (post: PostModel) => void;
 }
 
 interface State {
@@ -13,7 +13,7 @@ interface State {
   text: string;
 }
 
-class AddPostForm extends React.PureComponent<Props, State> {
+class AddPostForm extends React.PureComponent<Props & WithSheet<typeof styles>, State> {
   public state = {
     header: '',
     text: ''
@@ -21,11 +21,12 @@ class AddPostForm extends React.PureComponent<Props, State> {
 
   private onSubmit = (e) => {
     e.preventDefault();
-    this.props.onAddPost(this.state)
+    const {header, text} = this.state;
+    this.props.onAddPost(new PostModel(header, text));
   };
 
   private onChange = (field: string) => {
-    return (e: SyntheticEvent<HTMLInputElement|HTMLTextAreaElement>) => {
+    return (e: SyntheticEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const value = e.currentTarget.value;
       this.setState((state: State) => {
         const newState = Object.create(state);
@@ -36,9 +37,11 @@ class AddPostForm extends React.PureComponent<Props, State> {
   };
 
   public render() {
-    return <form onSubmit={ this.onSubmit }>
+    const { classes } = this.props;
+
+    return <form onSubmit={ this.onSubmit } className={classes.root}>
       <input
-        className={this.props.classes.field}
+        className={ classes.field }
         value={ this.state.header }
         onChange={ this.onChange('header') }
         type='text'
@@ -49,10 +52,11 @@ class AddPostForm extends React.PureComponent<Props, State> {
         name='' id=''
         cols={ 30 }
         rows={ 10 }/>
-        <button>SUBMIT</button>
+      <button>SUBMIT</button>
     </form>;
   }
 }
+
 
 const StyledAddPostForm = injectSheet(styles)(AddPostForm);
 

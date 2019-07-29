@@ -1,5 +1,9 @@
 import * as React from 'react';
 
-export const PostHeader = ({title}) => {
-  return <h2>{title}</h2>
+interface PostHeaderProps {
+  title: string;
 }
+
+export const PostHeader: React.FC<PostHeaderProps> = (props: PostHeaderProps) => {
+  return <h2>{props.title}</h2>
+};
