@@ -4,7 +4,6 @@ import axios, { AxiosResponse } from 'axios';
 
 import { Photo } from '../../models';
 import { Image } from '../Image';
-import { Button } from '../Button';
 
 import styles from './App.styles';
 
@@ -20,17 +19,12 @@ class App extends React.Component<WithStyles<typeof styles>, State> {
     photos: []
   };
 
-  public componentWillMount(): void {
-    console.log('WILL BE MOUNTED!');
-  }
-
   public componentDidMount(): void {
     axios.get<Array<Photo>>(`${ apiUrl }/photos`, {
       headers: {
         Authorization: `Client-ID ${ key }`
       }
     }).then((resp: AxiosResponse<Array<Photo>>) => {
-      console.log(resp);
       this.setPhotos(resp.data);
     });
   }
@@ -38,7 +32,6 @@ class App extends React.Component<WithStyles<typeof styles>, State> {
   public render() {
     const {classes} = this.props;
     return <div className={classes.root}>
-      <Button>TEST</Button>
       { this.renderImages() }
     </div>;
   }
