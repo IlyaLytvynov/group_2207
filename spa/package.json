@@ -54,6 +54,7 @@
     "react-dev-utils": "^9.0.1",
     "react-dom": "^16.8.6",
     "react-jss": "^10.0.0-alpha.23",
+    "react-router-dom": "^5.0.1",
     "resolve": "1.10.0",
     "sass-loader": "7.1.0",
     "semver": "6.0.0",
@@ -141,6 +142,7 @@
   "devDependencies": {
     "@babel/plugin-transform-react-jsx-source": "^7.5.0",
     "@types/axios": "^0.14.0",
+    "@types/react-router-dom": "^4.3.4",
     "prettier": "^1.18.2",
     "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.18.0",

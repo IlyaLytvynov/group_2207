@@ -5,5 +5,5 @@ export const pagePadding = '8px';
 export const fontSizeBase = '14px';
 export const fontSizeSmall = '12px';
 export const fontSizeLarge = '18px';
-export const baseFontFamily = ['SofiaPro'];
+export const baseFontFamily = ['SofiaPro', 'sans-serif'];
 export const contentPaddingTop = 70;

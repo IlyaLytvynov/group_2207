@@ -14,6 +14,7 @@ export interface Palette {
   secondary: PaletteColor;
   error: PaletteColor;
   accent: PaletteColor;
+  test: string;
 }
 
 export interface Theme {
@@ -24,13 +25,13 @@ export interface Theme {
   };
 }
 
-
 export const theme: Theme = {
   palette: {
-    primary: pink,
-    secondary: green,
+    primary: green,
+    secondary: pink,
     error: red,
-    accent: blue
+    accent: blue,
+    test: 'aqua'
   },
   typo: {
     fontFamily: baseFontFamily.join(','),
