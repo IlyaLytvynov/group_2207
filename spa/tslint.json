@@ -1,15 +1,11 @@
 {
-  "extends": [
-    "tslint:latest",
-    "tslint-react"
-  ],
+  "extends": ["tslint:latest", "tslint-react", "tslint-config-prettier"],
   "rules": {
     // override tslint-react rules here
     "jsx-wrap-multiline": false,
     "arrow-return-shorthand": true,
     "callable-types": true,
     "max-classes-per-file": true,
-    "jsx-curly-spacing": false,
     "class-name": true,
     "member-ordering": [
       true,
@@ -54,10 +50,7 @@
     "no-eval": true,
     "interface-name": false,
     "variable-name": false,
-    "array-type": [
-      true,
-      "generic"
-    ],
+    "array-type": [true, "generic"],
     "quotemark": [
       true,
       "single"
