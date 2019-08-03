@@ -10,19 +10,26 @@ import { Redirect, Route, RouteComponentProps, Switch } from 'react-router';
 import { Home } from '../Home';
 import { Link } from 'react-router-dom';
 import { Auth } from '../Auth';
+import { Token } from '../../models/Auth';
+import { getLocalStorage, setLocalStorage } from '../../utils/storages';
 
 interface State {
   photos: Array<Photo>;
+  token: Token;
 }
+
+const STORAGE_KEY = 'TOKEN';
 
 class App extends React.Component<WithStyles<typeof styles>, State> {
   public state = {
-    photos: []
+    photos: [],
+    token: undefined,
   };
 
   public componentWillMount = async () => {
+    this.readToken();
     try {
-      const photos = await ApiRequest.get('/photos');
+      const photos = await ApiRequest.get<Array<Photo>>('/photos');
       this.setPhotos(photos);
     } catch (e) {
       throw e;
@@ -33,7 +40,7 @@ class App extends React.Component<WithStyles<typeof styles>, State> {
     const { classes } = this.props;
     return <div className={ classes.root }>
       <Switch>
-        <Route exact={ true } path={ '/' } component={ Home }/>
+        <Route exact={ true } path={ '/' } render={ (props: RouteComponentProps) => <Home {...props} isSignedIn={this.isSignedIn}/>}/>
         <Route path={ '/about' } render={ (props: RouteComponentProps) => <h1>{props.location.pathname}</h1> }/>
         <Route path={ '/auth' } render={ this.renderAuth }/>
         <Route path={'/404'} render={() => <h2>Not found!</h2>} />
@@ -42,8 +49,17 @@ class App extends React.Component<WithStyles<typeof styles>, State> {
     </div>;
   }
 
+  private get isSignedIn(): boolean {
+    return !!this.state.token;
+  }
+
   private renderAuth = (props: RouteComponentProps) => {
-    return <Auth {...props}/>;
+    return <Auth {...props} onSuccess={this.saveToken}/>;
+  };
+
+  private saveToken = (token: Token) => {
+    this.setState((state: State) => ({...state, token}));
+    setLocalStorage(STORAGE_KEY, JSON.stringify(token));
   };
 
   private renderImages() {
@@ -53,6 +69,11 @@ class App extends React.Component<WithStyles<typeof styles>, State> {
   private setPhotos = (photos: Array<Photo>) => {
     this.setState(state => ({ ...state, photos }));
   };
+
+  private readToken = () => {
+    const token = JSON.parse(getLocalStorage(STORAGE_KEY));
+    this.setState((state: State) => ({...state, token}));
+  }
 
 }
 

@@ -9,7 +9,7 @@ interface RequestOptions {
 }
 
 export class ApiRequest {
-  public static get = async (uri: string, options?: RequestOptions) => {
+  public static get = async <T>(uri: string, options?: RequestOptions) => {
     try {
       const requestOptions = {
         headers: {
@@ -17,13 +17,24 @@ export class ApiRequest {
         }
       };
 
-      const response = await axios.get<Array<Photo>>(apiUrl + uri, requestOptions);
+      const response = await axios.get<T>(apiUrl + uri, requestOptions);
 
       return response.data;
     } catch (e) {
       throw e;
     }
+  }
 
+  public static post = async <T>(uri: string, body: any, options?: RequestOptions) => {
+    try {
+      const requestOptions = {};
+
+      const response = await axios.post<T>(apiUrl + uri, requestOptions);
+
+      return response.data;
+    } catch (e) {
+      throw e;
+    }
   }
 
 }
