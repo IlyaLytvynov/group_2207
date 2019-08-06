@@ -1,4 +1,4 @@
-import { blue, green, pink, red } from './colors.styles';
+import { black, blue, green, pink, red } from './colors.styles';
 import { baseFontFamily, fontSizeBase } from './variables.styles';
 
 export interface PaletteColor {
@@ -23,6 +23,10 @@ export interface Theme {
     fontFamily: string;
     fontSize: string;
   };
+  header: {
+    background: PaletteColor,
+    height: number
+  }
 }
 
 export const theme: Theme = {
@@ -36,5 +40,9 @@ export const theme: Theme = {
   typo: {
     fontFamily: baseFontFamily.join(','),
     fontSize: fontSizeBase
+  },
+  header: {
+    background: black,
+    height: 60
   }
 };

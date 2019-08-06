@@ -1,1 +1,2 @@
-export * from './Photo'
+export * from './Photo';
+export * from './Profile';
