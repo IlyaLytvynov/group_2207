@@ -5,20 +5,21 @@ import { Button } from '../Button';
 import { Profile } from '../../models';
 import { Action, Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { decreaseCounter, increaseCounter } from '../../store/actions';
+import { decreaseCounter, increaseCounter } from '../../store/counter';
+import { AppState } from '../../store';
+import { signOut } from '../../store/auth';
 
-interface HeaderProps {
+interface StateProps {
   isSignedIn: boolean;
-  onSignOut: () => void;
-  profile: Profile;
 }
 
 interface DispatchProps {
   onIncrease: () => void;
   onDecrease: () => void;
+  onSignOut: () => void;
 }
 
-class Header extends React.PureComponent<HeaderProps & DispatchProps & WithStyles<typeof styles>> {
+class Header extends React.PureComponent<StateProps & DispatchProps & WithStyles<typeof styles>> {
   public render() {
     const { classes } = this.props;
     return <header className={ classes.root }>
@@ -32,9 +33,8 @@ class Header extends React.PureComponent<HeaderProps & DispatchProps & WithStyle
   }
 
   private renderAuthControls = () => {
-    if (this.props.isSignedIn && this.props.profile) {
+    if (this.props.isSignedIn) {
       return <>
-        {this.props.profile.first_name}
         <Button onClick={this.props.onSignOut}>Sign Out</Button>
       </>;
     } else {
@@ -45,14 +45,21 @@ class Header extends React.PureComponent<HeaderProps & DispatchProps & WithStyle
 
 const WrappedHeader = withStyles(styles)(Header);
 
+const mapStateToProps = (state: AppState): StateProps => {
+  return {
+    isSignedIn: !!state.auth.token
+  };
+};
+
 const mapDispatchToProps = (dispatch: Dispatch<Action<any>>): DispatchProps => {
   return {
     onIncrease: () => dispatch(increaseCounter()),
     onDecrease: () =>  dispatch(decreaseCounter()),
+    onSignOut: () =>  dispatch(signOut()),
   };
 };
 
-const ConnectedComponent = connect<undefined, DispatchProps, HeaderProps>(undefined, mapDispatchToProps)(WrappedHeader);
+const ConnectedComponent = connect<StateProps, DispatchProps>(mapStateToProps, mapDispatchToProps)(WrappedHeader);
 
 export { ConnectedComponent as Header };
 

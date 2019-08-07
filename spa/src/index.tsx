@@ -1,38 +1,27 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import {
-  combineReducers,
-  compose,
-  createStore,
-  applyMiddleware
-} from 'redux';
 import { Provider } from 'react-redux';
 
 import { App } from './components/App';
 import { ThemeProvider } from 'react-jss';
 import { theme } from './styles';
 import { ApiRequest } from './apis/ApiRequest';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { ConnectedRouter } from 'connected-react-router';
 
-import { reducer } from './store/reducer';
+import { ACTION_TYPES } from './store/counter/actionTypes';
+import { setCounter } from './store/counter/actions';
+import createStore from './store';
+import { createBrowserHistory } from 'history';
 
-// @ts-ignore
-const composeEnhancers = (process.env.NODE_ENV !== 'production' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__)
-  // @ts-ignore
-  ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-  : compose;
-
-const store = createStore(
-  reducer,
-  undefined,
-  composeEnhancers(applyMiddleware()));;
+export const history = createBrowserHistory();
+const store = createStore(history);
 
 ReactDOM.render(
-  <ThemeProvider theme={ theme }>
-    <Router>
-      <Provider store={ store }>
+  <Provider store={ store }>
+    <ThemeProvider theme={ theme }>
+      <ConnectedRouter history={ history }>
         <App/>
-      </Provider>
-    </Router>
-  </ThemeProvider>,
+      </ConnectedRouter>
+    </ThemeProvider>
+  </Provider>,
   document.getElementById('root'));

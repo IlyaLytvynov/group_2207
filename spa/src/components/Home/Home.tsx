@@ -1,12 +1,12 @@
 import withStyles, { WithStyles } from 'react-jss';
-import styles from './Home.styles';
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
+
+import styles from './Home.styles';
 import { Header } from '../Header';
 import { Profile } from '../../models';
 import { connect } from 'react-redux';
-import { AppState } from '../../store/reducer';
-import { Action, Dispatch } from 'redux';
+import { AppState } from '../../store/';
 
 const key = process.env.REACT_APP_CLIENT_ID;
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -14,19 +14,17 @@ const redirectUri = process.env.REACT_APP_REDIRECT_URI;
 const scope = process.env.REACT_APP_SCOPE;
 
 interface HomeProps {
-  isSignedIn: boolean;
-  onSignOut: () => void;
-  profile: Profile;
 }
 
 interface StateProps {
   counter: number;
+  isSignedIn: boolean;
 }
 
 class Home extends React.PureComponent<HomeProps & StateProps & RouteComponentProps & WithStyles<typeof styles>> {
   public render() {
     return <div>
-      <Header isSignedIn={ this.props.isSignedIn } onSignOut={ this.props.onSignOut } profile={ this.props.profile }/>
+      <Header/>
       { this.props.isSignedIn ? this.renderAuthorisedContent() : this.renderSignIn() };
       { this.props.counter }
     </div>;
@@ -46,7 +44,8 @@ class Home extends React.PureComponent<HomeProps & StateProps & RouteComponentPr
 
 const mapStateToProps = (state: AppState): StateProps => {
   return {
-    counter: state.counter
+    counter: state.counter.value,
+    isSignedIn: !!state.auth.token
   };
 };
 

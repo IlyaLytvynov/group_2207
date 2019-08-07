@@ -1,49 +1,43 @@
 import { Redirect, RouteComponentProps } from 'react-router';
 import * as React from 'react';
-import { ApiRequest } from '../../apis/ApiRequest';
-import { Token } from '../../models/Auth';
-import axios from 'axios';
+import { connect } from 'react-redux';
+import { Action } from '../../store/types';
+import { Dispatch } from 'redux';
+import { fetchToken } from '../../store/auth';
 
-const key = process.env.REACT_APP_CLIENT_ID;
-const secret = process.env.REACT_APP_SECRET;
-const redirectUrl = process.env.REACT_APP_REDIRECT_URI;
-
-
-interface AuthProps {
-  onSuccess: (token: Token) => void;
+interface DispatchProps {
+  onFetchToken: (code: string) => void;
 }
 
-export class Auth extends React.Component<AuthProps & RouteComponentProps> {
+class Auth extends React.Component<DispatchProps & RouteComponentProps> {
   public componentDidMount = async () => {
     if (this.isValid) {
-      this.getToken();
+      const { location } = this.props;
+      this.props.onFetchToken(location.search.split('=')[1]);
     }
   };
 
   public render() {
-    const { location } = this.props;
     if (this.isValid) {
-      const code = location.search.split('=')[1];
-      return <div>
-        <button onClick={this.getToken}>GET TOKEN</button>
-      </div>;
-    }
-    return <Redirect to={'/'}/>;
-  }
 
-  private getToken = async () => {
-    try {
-      const code = this.props.location.search.split('=')[1];
-      const AUTH_URL = `https://unsplash.com/oauth/token?client_id=${ key }&client_secret=${ secret }&redirect_uri=${ redirectUrl }&code=${ code }&grant_type=${ 'authorization_code' }`;
-      const response = await axios.post<Token>(AUTH_URL);
-      this.props.onSuccess(response.data);
-      this.props.history.push('/');
-    } catch (e) {
-      throw e;
+      return null;
     }
-  };
+    return <Redirect to={ '/' }/>;
+  }
 
   get isValid() {
     return this.props.location.search.indexOf('code') !== -1;
   }
 }
+
+const mapDispatchToProps = (dispatch: Dispatch<Action<string>>) => ({
+  onFetchToken: (code: string) => dispatch(fetchToken(code))
+});
+
+
+const ConnectedAuth = connect<undefined, DispatchProps>(undefined, mapDispatchToProps)(Auth);
+
+export { ConnectedAuth as Auth };
+
+
+
