@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Token } from '../../models/Auth';
 import { setToken } from './actions';
 import { push } from 'connected-react-router';
+import { PATHES } from '../../components/App/App.pathes';
 
 const key = process.env.REACT_APP_CLIENT_ID;
 const secret = process.env.REACT_APP_SECRET;
@@ -23,11 +24,9 @@ const fetchToken = async (code: string) => {
 const fetchMiddleware = ({ dispatch, getState }: Store) => (next: (action: Action<any>) => void) => (action: Action<any>) => {
   if (action.type === ACTION_TYPES.FETCH_TOKEN) {
     const code = action.payload;
-    const state = getState();
-    console.log(state.counter.value);
     fetchToken(code).then((token: Token) => {
       dispatch(setToken(token));
-      dispatch(push('/'));
+      dispatch(push(PATHES.HOME));
     });
   }
 

@@ -24,7 +24,6 @@ class Header extends React.PureComponent<StateProps & DispatchProps & WithStyles
     const { classes } = this.props;
     return <header className={ classes.root }>
       <div className={ classes.content }>
-        <nav><button onClick={this.props.onIncrease}>+</button><button onClick={this.props.onDecrease}>-</button></nav>
         <div>
           { this.renderAuthControls() }
         </div>

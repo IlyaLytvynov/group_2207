@@ -32,8 +32,7 @@ export default (theme: Theme) => ({
     body: {
       margin: 0,
       padding: 0,
-      minHeight: '100vh',
-      backgroundColor: theme.palette.secondary.main
+      minHeight: '100vh'
     }
   }
 });

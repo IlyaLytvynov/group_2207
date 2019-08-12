@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { Photo } from '../models';
 
 const key = process.env.REACT_APP_CLIENT_ID;
 const apiUrl = process.env.REACT_APP_API_URL;

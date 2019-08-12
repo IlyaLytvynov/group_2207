@@ -4,6 +4,7 @@ import { History } from 'history';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import counter, { counterMiddlewares, CounterState } from './counter';
 import auth, { authMiddlewares, AuthState } from './auth';
+import photos, { photosMiddleWares, PhotosState } from './photos';
 
 // @ts-ignore
 const composeEnhancers = (process.env.NODE_ENV !== 'production' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__)
@@ -14,12 +15,14 @@ const composeEnhancers = (process.env.NODE_ENV !== 'production' && window.__REDU
 export interface AppState {
   counter: CounterState;
   auth: AuthState;
+  photos: PhotosState;
 }
 
 const rootReducer = (history: History) => combineReducers(
   {
     counter,
     auth,
+    photos,
     router: connectRouter(history),
   }
 );
@@ -34,6 +37,7 @@ export default (history) => {
         routerMiddleware(history),
         ...counterMiddlewares,
         ...authMiddlewares,
+        ...photosMiddleWares
       )
     )
   );
