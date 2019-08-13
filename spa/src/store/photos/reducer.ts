@@ -11,7 +11,7 @@ export interface PhotosState {
 
 const INITIAL_STATE = {
 	list: [],
-	pagination: new Pagination()
+	pagination: new Pagination(40)
 };
 
 export default (appState: PhotosState = INITIAL_STATE, action: Action<Array<Photo>>) => {

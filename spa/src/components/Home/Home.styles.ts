@@ -6,7 +6,7 @@ export default (theme: Theme) => ({
   },
   container: {
     maxWidth: 960,
-    margin: '0 auto'
+    margin: '40px auto'
   },
   signInLinkWrapper: {
     width: '100%',
