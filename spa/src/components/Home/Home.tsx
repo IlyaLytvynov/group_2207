@@ -10,12 +10,14 @@ import { Grid } from '../Grid';
 class Home extends React.PureComponent<HomeProps & StateProps & DispatchProps & RouteComponentProps & WithStyles<typeof styles>> {
 	public componentDidMount(): void {
 		this.props.onFetchList();
+		this.props.onFetchUserProfile();
 	}
 
 	public render() {
 		const {classes, photos} = this.props;
 		return <Page title={ 'CLONE UNSPLASH|HOME' }>
 			<div className={ classes.container }>
+				<h2>hello {this.props.userName}</h2>
 				<Grid images={photos}/>
 			</div>
 		</Page>;

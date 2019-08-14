@@ -5,11 +5,7 @@ import { Provider } from 'react-redux';
 import { App } from './components/App';
 import { ThemeProvider } from 'react-jss';
 import { theme } from './styles';
-import { ApiRequest } from './apis/ApiRequest';
 import { ConnectedRouter } from 'connected-react-router';
-
-import { ACTION_TYPES } from './store/counter/actionTypes';
-import { setCounter } from './store/counter/actions';
 import createStore from './store';
 import { createBrowserHistory } from 'history';
 

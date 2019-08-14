@@ -8,54 +8,59 @@ import { connect } from 'react-redux';
 import { decreaseCounter, increaseCounter } from '../../store/counter';
 import { AppState } from '../../store';
 import { signOut } from '../../store/auth';
+import counter from '../../mobxStore/counter';
+import { observer } from 'mobx-react';
 
 interface StateProps {
-  isSignedIn: boolean;
+	isSignedIn: boolean;
 }
 
 interface DispatchProps {
-  onIncrease: () => void;
-  onDecrease: () => void;
-  onSignOut: () => void;
+	onIncrease: () => void;
+	onDecrease: () => void;
+	onSignOut: () => void;
 }
 
+@observer
 class Header extends React.PureComponent<StateProps & DispatchProps & WithStyles<typeof styles>> {
-  public render() {
-    const { classes } = this.props;
-    return <header className={ classes.root }>
-      <div className={ classes.content }>
-        <div>
-          { this.renderAuthControls() }
-        </div>
-      </div>
-    </header>;
-  }
+	public render() {
+		const {classes} = this.props;
+		return <header className={ classes.root }>
+			<div className={ classes.content }>
+				{ counter.value }
+				<div>
+					<button onClick={ () => counter.clear() }>CLEAR</button>
+					{ this.renderAuthControls() }
+				</div>
+			</div>
+		</header>;
+	}
 
-  private renderAuthControls = () => {
-    if (this.props.isSignedIn) {
-      return <>
-        <Button onClick={this.props.onSignOut}>Sign Out</Button>
-      </>;
-    } else {
-      return null;
-    }
-  };
+	private renderAuthControls = () => {
+		if (this.props.isSignedIn) {
+			return <>
+				<Button onClick={ this.props.onSignOut }>Sign Out</Button>
+			</>;
+		} else {
+			return null;
+		}
+	};
 }
 
 const WrappedHeader = withStyles(styles)(Header);
 
 const mapStateToProps = (state: AppState): StateProps => {
-  return {
-    isSignedIn: !!state.auth.token
-  };
+	return {
+		isSignedIn: !!state.auth.token
+	};
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<Action<any>>): DispatchProps => {
-  return {
-    onIncrease: () => dispatch(increaseCounter()),
-    onDecrease: () =>  dispatch(decreaseCounter()),
-    onSignOut: () =>  dispatch(signOut()),
-  };
+	return {
+		onIncrease: () => dispatch(increaseCounter()),
+		onDecrease: () => dispatch(decreaseCounter()),
+		onSignOut: () => dispatch(signOut()),
+	};
 };
 
 const ConnectedComponent = connect<StateProps, DispatchProps>(mapStateToProps, mapDispatchToProps)(WrappedHeader);

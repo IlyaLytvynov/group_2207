@@ -34,7 +34,6 @@ const fetchMiddleware = ({dispatch}: Store) => (next: (action: Action<any>) => v
 	next(action);
 };
 
-
 const signOutMiddleware = ({dispatch}: Store) => (next: (action: Action<any>) => void) => (action: Action<any>) => {
 	if (action.type === ACTION_TYPES.SIGN_OUT) {
 		dispatch(setToken(undefined));
