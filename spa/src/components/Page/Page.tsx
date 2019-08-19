@@ -13,6 +13,7 @@ export const Page: React.FC<Props> = ({children, title}) => {
 			<title>{ title }</title>
 		</Helmet>
 		<Header/>
+		{}
 		{ children }
 	</>;
 };

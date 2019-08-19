@@ -5,7 +5,6 @@ import withStyles, { WithStyles } from 'react-jss';
 import styles from './SignIn.styles';
 import { Page } from '../Page';
 import { Counter } from '../Counter';
-import counter from '../../mobxStore/counter';
 
 const key = process.env.REACT_APP_CLIENT_ID;
 const redirectUri = process.env.REACT_APP_REDIRECT_URI;

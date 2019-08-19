@@ -8,8 +8,8 @@ import { connect } from 'react-redux';
 import { decreaseCounter, increaseCounter } from '../../store/counter';
 import { AppState } from '../../store';
 import { signOut } from '../../store/auth';
-import counter from '../../mobxStore/counter';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
+import { AUTH_INSTANCE_NAME, IAuthStore } from '../../mobxStore/AuthStore';
 
 interface StateProps {
 	isSignedIn: boolean;
@@ -21,15 +21,22 @@ interface DispatchProps {
 	onSignOut: () => void;
 }
 
+interface OwnProps {
+	[AUTH_INSTANCE_NAME]?: IAuthStore;
+}
+
+@inject(AUTH_INSTANCE_NAME)
 @observer
-class Header extends React.PureComponent<StateProps & DispatchProps & WithStyles<typeof styles>> {
+class Header extends React.PureComponent<OwnProps & StateProps & DispatchProps & WithStyles<typeof styles>> {
 	public render() {
 		const {classes} = this.props;
 		return <header className={ classes.root }>
 			<div className={ classes.content }>
-				{ counter.value }
+				{/*{ counter.value }*/}
+
+				{/*{ counter.hexValue }*/}
 				<div>
-					<button onClick={ () => counter.clear() }>CLEAR</button>
+					{/*<button onClick={ () => counter.clear() }>CLEAR</button>*/}
 					{ this.renderAuthControls() }
 				</div>
 			</div>

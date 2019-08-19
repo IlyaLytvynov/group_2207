@@ -1,29 +1,49 @@
-import { action, observable } from 'mobx';
+import { action, computed, observable } from 'mobx';
+
+export const STORE_NAME = 'counter';
 
 export interface CounterStore {
 	value: number;
+	hexValue: string;
 	increase: () => void;
 	decrease: () => void;
 }
 
-class Counter {
-	@observable
-	public value: number = 0;
+export class Counter implements CounterStore {
+	@observable public value: number = 0;
 
-	public increase() {
+	@computed get hexValue() {
+		return this.value.toString(16);
+	}
+
+	@action public increase() {
 		this.value += 1;
 	}
 
-	@action
-	public decrease() {
+	@action public decrease() {
 		this.value -= 1;
 	}
 
-	@action
-	public clear() {
+	@action public clear() {
 		this.value = 0;
 	}
 }
 
-const counterInstance = new Counter();
-export default counterInstance;
+export class FakeCounter implements CounterStore {
+	public value: number = 0;
+
+	get hexValue() {
+		return 'asdasdasd';
+	}
+
+	public increase() {
+		this.value += 10500;
+	}
+
+	public decrease() {
+		this.value -= 1;
+	}
+	public clear() {
+		this.value = 0;
+	}
+}
