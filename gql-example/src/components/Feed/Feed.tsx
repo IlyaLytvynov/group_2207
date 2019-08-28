@@ -4,8 +4,8 @@ import gql from 'graphql-tag';
 import { Link } from "../Link";
 // @ts-ignore
 const query = gql`
-  query Feed {
-    feed {
+  query Feed($skip: Int) {
+    feed(skip: $skip) {
       links {
         id
         url
@@ -16,16 +16,17 @@ const query = gql`
 `;
 
 export const Feed: React.FC = () => {
-  const { loading, error, data } = useQuery(query, {variables: {}});
+  const { loading, error, data } = useQuery(query, {variables: {skip: 0}});
   const renderLoading = () => <h2>Loading...</h2>;
 
   if (loading) {
     return renderLoading();
   }
   if (error) {
-    console.log(error);
     return <div>Error!!</div>;
   }
-  console.log(data);
-  return data.feed.links.map((link: any) => <Link key={link.id} {...link}/>)
+  return <>
+    {data.feed.links.map((link: any) => <Link key={link.id} {...link}/>)}
+    {data.visibilityFilter}
+    </>
 };
